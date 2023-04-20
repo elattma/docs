@@ -30,11 +30,6 @@
       "name": "API Reference",
       "icon": "rectangle-terminal",
       "url": "api-reference"
-    },
-    {
-      "name": "Book a Demo",
-      "icon": "phone-flip",
-      "url": "https://mimo.team"
     }
   ],
   "api": {
