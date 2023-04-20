@@ -1,25 +1,29 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Documentation Starter Kit",
+  "name": "Mimo",
   "logo": {
     "dark": "/logo/dark.png",
     "light": "/logo/light.png"
   },
   "favicon": "/favicon.png",
   "colors": {
-    "primary": "#0069ED",
-    "light": "#4D9CFF",
-    "dark": "#0050B4"
+    "primary": "#18794e",
+    "light": "#4cc38a",
+    "dark": "#30a46c",
+    "background": {
+      "light": "#fbfdfc",
+      "dark": "#141716"
+    }
   },
   "topbarLinks": [
     {
-      "name": "Documentation",
-      "url": "https://mintlify.com/docs"
+      "name": "Dashboard",
+      "url": "https://mimo.team"
     }
   ],
   "topbarCtaButton": {
-    "name": "Get Started",
-    "url": "https://github.com/mintlify/starter"
+    "name": "Sign Up",
+    "url": "https://mimo.team"
   },
   "anchors": [
     {
@@ -28,38 +32,55 @@
       "url": "api-reference"
     },
     {
-      "name": "Changelog",
-      "icon": "list",
-      "url": "https://mintlify.com"
-    },
-    {
-      "name": "Community",
-      "icon": "discord",
-      "url": "https://mintlify.com/community"
+      "name": "Book a Demo",
+      "icon": "phone-flip",
+      "url": "https://mimo.team"
     }
   ],
+  "api": {
+    "baseUrl": "https://api.mimo.team",
+    "auth": {
+      "method": "key",
+      "name": "basic",
+      "inputPrefix": "AuthKey"
+    },
+    "playground": {
+      "mode": "simple"
+    }
+  },
   "navigation": [
     {
-      "group": "Home",
-      "pages": ["introduction", "features"]
-    },
-    {
-      "group": "API Documentation",
-      "pages": ["api-reference/authentication"]
-    },
-    {
-      "group": "Endpoint Examples",
+      "group": "Overview",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/update",
-        "api-reference/endpoint/delete"
+        "documentation/overview/introduction",
+        "documentation/overview/quick-start"
+      ]
+    },
+    {
+      "group": "Guides",
+      "pages": ["documentation/guides/best-practices"]
+    },
+    {
+      "group": "Overview",
+      "pages": [
+        "api-reference/overview/introduction",
+        "api-reference/overview/authentication"
+      ]
+    },
+    {
+      "group": "Endpoints",
+      "pages": [
+        {
+          "group": "Knowledge",
+          "pages": ["api-reference/endpoints/knowledge/get"]
+        }
       ]
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "linkedin": "https://linkedin.com/company/mimo-team/"
+  },
+  "feedback": {
+    "raiseIssue": true
   }
 }
