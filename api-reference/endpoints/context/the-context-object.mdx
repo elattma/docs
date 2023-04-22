@@ -1,0 +1,46 @@
+---
+title: "The Context Object"
+description: A definition for `Context`
+---
+
+## Properties
+
+<ResponseField name="text" type="string" required>
+  The formatted text content
+</ResponseField>
+<ResponseField name="score" type="number" required>
+  A confidence score that represents how fit the context is to the query that
+  generated it
+</ResponseField>
+<ResponseField name="source" type="object" required>
+  The source that the context came from
+  <Expandable title="properties">
+    <ResponseField name="integration" type="object" required>
+      The integration that the source belongs to. See
+      [Integrations](/documentation/data/integrations) for reference
+      <Expandable title="properties">
+        <ResponseField name="name" type="string" required>
+          The name of the integration
+        </ResponseField>
+        <ResponseField name="category" type="string" required>
+          The category that the integration belongs to
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="page" type="object" required>
+      The page that the context was apart of. See
+      [Pages](/documentation/data/pages) for reference
+      <Expandable title="properties">
+        <ResponseField name="id" type="string" required>
+          The id of the page
+        </ResponseField>
+        <ResponseField name="link" type="string" required>
+          A link to where the page originated from
+        </ResponseField>
+        <ResponseField name="type" type="string" required>
+          The type of page
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

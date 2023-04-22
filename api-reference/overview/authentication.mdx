@@ -1,4 +1,27 @@
 ---
 title: "Authentication"
-description: "How to authenticate with Mimo's API"
 ---
+
+## Obtaining an API Key
+
+To obtain an API Key navigate to your [API settings](https://mimo.team/dashboard/settings/api) on our website. Here, you can view your active API key or generate a new one. We currently support only one active API key per account.
+
+## Making an Authenticated Request
+
+Whenever you make a request to the Mimo API, you must pass in your API key in the headers as `x-api-key`.
+
+<CodeGroup>
+```bash cURL
+curl ...
+     --header 'x-api-key: <YOUR_API_KEY>'
+     ...
+```
+
+```python Python
+import requests
+
+headers = {'x-api-key': <YOUR_API_KEY>}
+response = requests.get(..., headers=headers, ...)
+```
+
+</CodeGroup>

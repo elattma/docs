@@ -1,0 +1,152 @@
+---
+title: "Integrating with Langchain"
+---
+
+## Introduction
+
+TBD. AN OVERVIEW OF WHAT WE WILL BUILD BY THE END OF THE GUIDE.
+
+### Prerequisites
+
+EXPLAIN WHAT THEY NEED TO KNOW FOR THIS GUIDE. POINT THEM TO DIFFERENT PARTS OF LANGCHAIN DOCS TO LEARN MORE.
+
+## Setup
+
+This guide assumes you have valid API keys for both Mimo and OpenAI. If you do not, you can find information about obtaining a Mimo API key [here](/api-reference/overview/authentication) and an OpenAI API key [here](https://platform.openai.com/docs/api-reference/authentication).
+
+<Note>
+  Langchain's `LLM` abstraction allows you to use models other than OpenAI's,
+  but this guide will not teach you how to do that. For more information see the
+  [Langchain docs](https://python.langchain.com/en/latest/modules/models.html).
+</Note>
+
+Next, you will need to set up a Python environment and install `langchain`.
+
+```bash
+pip install langchain
+```
+
+FINALLY, SHOW HOW TO TURN ON TEST DATA MODE. INCLUDE LINK TO WHERE THEY CAN EXPLORE WHAT DATA IS IN THE TEST SET.
+
+## Imports
+
+Add the necessary imports to your file.
+
+```python mimo-langchain-guide.py
+import requests # For calling the Mimo API
+from langchain.chat_models import ChatOpenAI
+from langchain.agents import AgentExecutor, Tool, ZeroShotAgent
+```
+
+## Defining Tools
+
+Next, we need to define the tools that our agent will have access to.
+
+### The Directory Tool
+
+Our agent needs the ability to look up email addresses in order to write its emails. Therefore, we will provide it with a tool that calls the Mimo API to retrieve a contact from our CRM that will contain a person's email address.
+
+```python mimo-langchain-guide.py
+def call_mimo_api(query: str, max_tokens: int=None) -> str:
+  params = {'query': query, 'max_tokens': max_tokens}
+  headers = {'x-api-key': <YOUR_MIMO_API_KEY>}
+  url = 'https://api.mimo.team/context'
+  response = requests.get(url, params=params, headers=headers)
+  data = response.json()
+  context = data.get('context')
+  return context
+
+def look_up_email(name: str) -> str:
+  name = name.strip() # Remove leading or trailing whitespace from the name
+  query = f'{name}\'s email address from the CRM'
+  contact = call_mimo_api(query)
+  return contact
+
+directory_tool = Tool(
+  name='Directory',
+  func=look_up_email,
+  description=(
+    'Used to look up someone\'s email address. '
+    'The input should be the person\'s name. '
+    'The output will be their contact information, including their email.'
+  )
+)
+```
+
+### The Knowledge Tool
+
+Our agent also requires a tool to search for general information in our dataset. For example, they might need to know background information for the recipient or relevant details pertaining to the topics it needs to write about. Therefore, we will also define a tool to perform more general information retrieval, using the Mimo API.
+
+```python mimo-langchain-guide.py
+def look_up_information(query: str) -> str:
+  context = call_mimo_api(query, max_tokens=1000)
+  return context
+
+knowledge_tool = Tool(
+  name='Knowledge',
+  func=look_up_information,
+  description=(
+    'Used to look up information you need to write the email. '
+    'The input should be a description of the information you need. '
+    'The output will be the most relevant information, if it exists.'
+  )
+)
+```
+
+Notice that for this tool, we limit the size of the returned context by passing `max_tokens` to the Mimo API. Since Langchain's agents are prompted with their entire reasoning history at each step, including tool outputs, providing them with context that is too large inhibits their ability to produce clear and accurate responses.
+
+## Defining Our Agent
+
+Now that our tools are ready, we can define an agent, using Langchain's `ZeroShotAgent` module.
+
+```python mimo-langchain-demo.py
+llm = ChatOpenAI(openai_api_key=<YOUR_OPENAI_API_KEY>, temperature=0.0)
+tools = [directory_tool, knowledge_tool]
+
+# The parts of the prompt that we need to customize to make our email agent
+# behave as desired.
+prefix = '''You are an expert at writing emails. Based on the request from the user, write an email to the best of your ability.
+The user will assume you know everything about their company and its customers. Since you don't, use your tools to look up information as needed.
+
+Your Final Answer should always have the following structure:
+--------
+To: <EMAIL ADDRESS>
+Subject: <SUBJECT>
+<BODY>
+--------
+
+You have access to the following tools:'''
+
+suffix = '''Remember to use your tools when you don't know something.
+Do not try to look up two things at once. If you need to know multiple things, use your tools multiple times.
+Question: {input}
+{agent_scratchpad}'''
+
+agent = ZeroShotAgent.from_llm_and_tools(
+  llm,
+  tools,
+  prefix=prefix,
+  suffix=suffix
+)
+```
+
+## Creating an Email
+
+Now that we have intialized our agent, we can use it to write emails! We will use Langchain's `AgentExecutor` to run our agent on a loop until it is writes an email.
+
+```python mimo-langchain-demo.py
+agent_executor = AgentExecutor.from_agent_and_tools(
+  agent,
+  tools,
+  max_iterations=5,
+  verbose=True
+)
+prompt = 'Write an email to Mitsue Tollner about our product roadmap.'
+agent_executor.run(prompt)
+```
+
+<Note>
+  For more complex prompts, you might need to increase `max_iterations` when
+  initializing the `AgentExecutor`. Note that each iteration makes a call to
+  OpenAI's API, with each one using more tokens than the last.
+</Note>

@@ -18,7 +18,7 @@
   "topbarLinks": [
     {
       "name": "Dashboard",
-      "url": "https://mimo.team"
+      "url": "https://mimo.team/dashboard"
     }
   ],
   "topbarCtaButton": {
@@ -36,8 +36,7 @@
     "baseUrl": "https://api.mimo.team",
     "auth": {
       "method": "key",
-      "name": "basic",
-      "inputPrefix": "AuthKey"
+      "name": "x-api-key"
     },
     "playground": {
       "mode": "simple"
@@ -53,23 +52,41 @@
     },
     {
       "group": "Guides",
-      "pages": ["documentation/guides/best-practices"]
+      "pages": [
+        "documentation/guides/best-practices",
+        "documentation/guides/integrating-with-langchain"
+      ]
+    },
+    {
+      "group": "Data",
+      "pages": [
+        "documentation/data/integrations",
+        "documentation/data/pages"
+      ]
     },
     {
       "group": "Overview",
       "pages": [
         "api-reference/overview/introduction",
-        "api-reference/overview/authentication"
+        "api-reference/overview/authentication",
+        "api-reference/overview/pagination"
       ]
     },
     {
       "group": "Endpoints",
       "pages": [
         {
-          "group": "Knowledge",
-          "pages": ["api-reference/endpoints/knowledge/get"]
+          "group": "Context",
+          "pages": [
+            "api-reference/endpoints/context/the-context-object",
+            "api-reference/endpoints/context/get"
+          ]
         }
       ]
+    },
+    {
+      "group": "Errors",
+      "pages": ["/api-reference/errors/error-codes"]
     }
   ],
   "footerSocials": {

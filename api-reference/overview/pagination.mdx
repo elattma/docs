@@ -1,0 +1,15 @@
+---
+title: "Pagination"
+---
+While working with the Mimo API, certain API methods will limit the number of tokens that are returned in certain properties of a response. For example, the [Retrieve Context](/api-reference/endpoints/context/retrieve-context) method enforces a token limit with the `max_tokens` parameter, which defaults to 2000. Certain methods implement pagination to allow users to get the next page of results for a given query. Read on to understand how the Mimo API uses pagination and the appropriate patterns to follow.
+
+<Note>To understand more about tokens and how to count them, see [this tool](https://platform.openai.com/tokenizer) from OpenAI. Note, other models may use different methods to tokenize strings.</Note>
+
+## Cursor-based Pagination
+The Mimo API uses a cursor-based approach for handling pagination. Cursors are like pointers that reference a specific position where your last request left off, allowing you to avoid loading the entire set to retrieve just a slice of the data.
+
+When you use a cursor-paginated method, you will receive a portion of the total set of results and a cursor that points to the next page of the results, if not all of them could be returned at once.
+## `next_token`
+When you receive a response from the Mimo API, the response may include a `next_token`. If a `next_token` is present, the API limited the response because the results exceeded `max_tokens`. To get the next page of results, simply include `next_token` as a parameter in a subsequent request.
+## Example
+Here's an example request to the [Retrieve Context](/api-reference/endpoints/context/retrieve-context)
