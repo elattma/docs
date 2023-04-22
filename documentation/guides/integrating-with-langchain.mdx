@@ -4,21 +4,24 @@ title: "Integrating with Langchain"
 
 ## Introduction
 
-TBD. AN OVERVIEW OF WHAT WE WILL BUILD BY THE END OF THE GUIDE.
+Below you will see an example of how to build a LangChain agent that uses the Mimo API in two different tools to write contextualize business emails. The tools at the agent's disposal include:
 
-### Prerequisites
+- Knowledge Tool - allows the agent to query for any context about the enterprise necessary to write the email
+- Directory Tool - allows the agent to look up a recipient's email address
 
-EXPLAIN WHAT THEY NEED TO KNOW FOR THIS GUIDE. POINT THEM TO DIFFERENT PARTS OF LANGCHAIN DOCS TO LEARN MORE.
+<Info>
+  This is a very lightweight guide that assumes you have prior experience building AI agents with LangChain.
+</Info>
 
 ## Setup
 
 This guide assumes you have valid API keys for both Mimo and OpenAI. If you do not, you can find information about obtaining a Mimo API key [here](/api-reference/overview/authentication) and an OpenAI API key [here](https://platform.openai.com/docs/api-reference/authentication).
 
-<Note>
+<Info>
   Langchain's `LLM` abstraction allows you to use models other than OpenAI's,
   but this guide will not teach you how to do that. For more information see the
   [Langchain docs](https://python.langchain.com/en/latest/modules/models.html).
-</Note>
+</Info>
 
 Next, you will need to set up a Python environment and install `langchain`.
 
@@ -38,13 +41,9 @@ from langchain.chat_models import ChatOpenAI
 from langchain.agents import AgentExecutor, Tool, ZeroShotAgent
 ```
 
-## Defining Tools
+## The Mimo API
 
-Next, we need to define the tools that our agent will have access to.
-
-### The Directory Tool
-
-Our agent needs the ability to look up email addresses in order to write its emails. Therefore, we will provide it with a tool that calls the Mimo API to retrieve a contact from our CRM that will contain a person's email address.
+HENRY WRITE THIS ONE LINER THANKS
 
 ```python mimo-langchain-guide.py
 def call_mimo_api(query: str, max_tokens: int=None) -> str:
@@ -55,27 +54,15 @@ def call_mimo_api(query: str, max_tokens: int=None) -> str:
   data = response.json()
   context = data.get('context')
   return context
-
-def look_up_email(name: str) -> str:
-  name = name.strip() # Remove leading or trailing whitespace from the name
-  query = f'{name}\'s email address from the CRM'
-  contact = call_mimo_api(query)
-  return contact
-
-directory_tool = Tool(
-  name='Directory',
-  func=look_up_email,
-  description=(
-    'Used to look up someone\'s email address. '
-    'The input should be the person\'s name. '
-    'The output will be their contact information, including their email.'
-  )
-)
 ```
+
+## Defining Tools
+
+Next, we need to define the tools that our agent will have access to.
 
 ### The Knowledge Tool
 
-Our agent also requires a tool to search for general information in our dataset. For example, they might need to know background information for the recipient or relevant details pertaining to the topics it needs to write about. Therefore, we will also define a tool to perform more general information retrieval, using the Mimo API.
+Our agent requires a tool to search for general information in our dataset. For example, they might need to know background information for the recipient or relevant details pertaining to the topics it needs to write about. Therefore, we will also define a tool to perform more general information retrieval, using the Mimo API.
 
 ```python mimo-langchain-guide.py
 def look_up_information(query: str) -> str:
@@ -89,6 +76,28 @@ knowledge_tool = Tool(
     'Used to look up information you need to write the email. '
     'The input should be a description of the information you need. '
     'The output will be the most relevant information, if it exists.'
+  )
+)
+```
+
+### The Directory Tool
+
+Our agent also needs the ability to look up email addresses in order to write its emails. Therefore, we will provide it with a tool that calls the Mimo API to retrieve a contact from our CRM that will contain a person's email address.
+
+```python mimo-langchain-guide.py
+def look_up_email(name: str) -> str:
+  name = name.strip() # Remove leading or trailing whitespace from the name
+  query = f'{name}\'s email address from the CRM'
+  contact = call_mimo_api(query)
+  return contact
+
+directory_tool = Tool(
+  name='Directory',
+  func=look_up_email,
+  description=(
+    'Used to look up someone\'s email address. '
+    'The input should be the person\'s name. '
+    'The output will be their contact information, including their email.'
   )
 )
 ```
