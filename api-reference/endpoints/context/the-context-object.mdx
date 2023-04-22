@@ -9,8 +9,10 @@ description: A definition for `Context`
   The formatted text content
 </ResponseField>
 <ResponseField name="score" type="number" required>
-  A confidence score that represents how fit the context is to the query that
-  generated it
+  A confidence score, between 0.0 and 1.0, that represents how fit the context is to the query that
+  generated it. Higher scores mean higher confidence
+
+  
 </ResponseField>
 <ResponseField name="source" type="object" required>
   The source that the context came from
