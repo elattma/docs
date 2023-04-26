@@ -78,6 +78,7 @@
           "group": "Context",
           "pages": [
             "api-reference/endpoints/context/the-context-object",
+            "api-reference/endpoints/context/formulating-a-query",
             "api-reference/endpoints/context/get"
           ]
         }
@@ -85,7 +86,7 @@
     },
     {
       "group": "Errors",
-      "pages": ["/api-reference/errors/error-codes"]
+      "pages": ["api-reference/errors/error-codes"]
     }
   ],
   "footerSocials": {
