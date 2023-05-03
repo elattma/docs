@@ -4,23 +4,23 @@ title: "Integrating with Langchain"
 
 ## Introduction
 
-Below you will see an example of how to build a LangChain agent that uses the Mimo API in two different tools to write contextualize business emails. The tools at the agent's disposal include:
+This guide will show you how to build a LangChain agent that leverages the Mimo API to write contextualized business emails. To accomplish this, we will implement two tools for our agent:
+1. The Knowledge Tool: Enables the agent to query for any necessary context about the enterprise in order to write an effective email
+2. The Directory Tool: Enables the agent to look up the email address of a specific recipient
 
-- Knowledge Tool - allows the agent to query for any context about the enterprise necessary to write the email
-- Directory Tool - allows the agent to look up a recipient's email address
-
-<Info>
-  This is a very lightweight guide that assumes you have prior experience building AI agents with LangChain.
-</Info>
+<Note>
+  This guide is intended for those with prior experience building AI agents with
+  LangChain.
+</Note>
 
 ## Setup
 
 This guide assumes you have valid API keys for both Mimo and OpenAI. If you do not, you can find information about obtaining a Mimo API key [here](/api-reference/overview/authentication) and an OpenAI API key [here](https://platform.openai.com/docs/api-reference/authentication).
 
 <Info>
-  Langchain's `LLM` abstraction allows you to use models other than OpenAI's,
-  but this guide will not teach you how to do that. For more information see the
-  [Langchain docs](https://python.langchain.com/en/latest/modules/models.html).
+  Langchain's `LLM` abstraction allows you to use models other than OpenAI's.
+  For more information see the [Langchain
+  docs](https://python.langchain.com/en/latest/modules/models.html).
 </Info>
 
 Next, you will need to set up a Python environment and install `langchain`.
@@ -29,7 +29,7 @@ Next, you will need to set up a Python environment and install `langchain`.
 pip install langchain
 ```
 
-FINALLY, SHOW HOW TO TURN ON TEST DATA MODE. INCLUDE LINK TO WHERE THEY CAN EXPLORE WHAT DATA IS IN THE TEST SET.
+Finally, if you do not have your own Mimo Library, you can use the [Test Library](/documentation/data/test-library) to follow along with this guide with minimal setup.
 
 ## Imports
 
@@ -43,11 +43,15 @@ from langchain.agents import AgentExecutor, Tool, ZeroShotAgent
 
 ## The Mimo API
 
-HENRY WRITE THIS ONE LINER THANKS
+Write a helper function that uses the `requests` module to call the [Retrieve Context](/api-reference/endpoints/context/get) method.
 
 ```python mimo-langchain-guide.py
 def call_mimo_api(query: str, max_tokens: int=None) -> str:
-  params = {'query': query, 'max_tokens': max_tokens}
+  params = {
+    'query': query,
+    'library_id': <MIMO_LIBRARY_ID>,
+    'max_tokens': max_tokens
+  }
   headers = {'x-api-key': <YOUR_MIMO_API_KEY>}
   url = 'https://api.mimo.team/context'
   response = requests.get(url, params=params, headers=headers)
@@ -62,7 +66,7 @@ Next, we need to define the tools that our agent will have access to.
 
 ### The Knowledge Tool
 
-Our agent requires a tool to search for general information in our dataset. For example, they might need to know background information for the recipient or relevant details pertaining to the topics it needs to write about. Therefore, we will also define a tool to perform more general information retrieval, using the Mimo API.
+Our agent requires a tool to search for general information from the library. For example, they might need to know background information for the recipient or relevant details pertaining to the topics it needs to write about. Therefore, we will also define a tool to perform more general information retrieval, utilizing the Mimo API.
 
 ```python mimo-langchain-guide.py
 def look_up_information(query: str) -> str:

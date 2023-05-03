@@ -59,7 +59,7 @@
     {
       "group": "Data",
       "pages": [
-        "documentation/data/build-a-library",
+        "documentation/data/building-a-library",
         "documentation/data/integrations",
         "documentation/data/test-library"
       ]

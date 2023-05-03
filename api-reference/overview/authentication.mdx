@@ -2,13 +2,21 @@
 title: "Authentication"
 ---
 
+## Creating an App
+
+Before accessing the Mimo API, you'll need to create an app on our website. This is a quick and easy process that can be completed in just a few simple steps:
+
+1. Visit the [developer settings](https://mimo.team/dashboard/settings/api) and click the **Enable Access** button to enable developer access.
+2. Click the **Create App** button.
+3. Give your application a descriptive name and press the **Create** button.
+
 ## Obtaining an API Key
 
-To obtain an API Key, you need to visit the [API settings](https://mimo.team/dashboard/settings/api) on our website. Once there, you can either view your currently active API key or generate a new one. Please note that each account can only have one active API key at a time.
+Mimo uses API keys to manage API authentication. API keys are provisioned at the app level, meaning each app will have its own API key. An app's API key can be found under the [developer settings](https://mimo.team/dashboard/settings/api) after selecting a specific app.
 
 ## Authenticating Your Requests
 
-When making a request to the Mimo API, you must include the `x-api-key` header with your API key as its value.
+When making a request to the Mimo API, you must include the `x-api-key` header with an API key as its value.
 
 <CodeGroup>
 ```bash cURL
