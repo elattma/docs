@@ -59,8 +59,9 @@
     {
       "group": "Data",
       "pages": [
+        "documentation/data/build-a-library",
         "documentation/data/integrations",
-        "documentation/data/test-dataset"
+        "documentation/data/test-library"
       ]
     },
     {
@@ -83,10 +84,6 @@
           ]
         }
       ]
-    },
-    {
-      "group": "Errors",
-      "pages": ["api-reference/errors/error-codes"]
     }
   ],
   "footerSocials": {
