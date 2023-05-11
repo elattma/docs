@@ -1,6 +1,6 @@
 ---
 title: "Retrieve Context"
-api: "GET /context"
+api: "GET /v1/context"
 ---
 
 ## Query Parameters
@@ -31,8 +31,8 @@ api: "GET /context"
 
 ```bash cURL
 curl --request GET --get \
-     --url https://api.mimo.team/context \
-     --header 'x-api-key: AUTH_VALUE' \
+     --url https://api.mimo.team/v1/context \
+     --header 'Authorization: AUTH_VALUE' \
      --data query='last email from Troy Wilkerson' \
      --data max_tokens=4000
 ```
@@ -40,8 +40,8 @@ curl --request GET --get \
 ```python Python
 import requests
 
-url = 'https://api.mimo.team/context'
-headers = {'x-api-key': AUTH_VALUE}
+url = 'https://api.mimo.team/v1/context'
+headers = {'Authorization': AUTH_VALUE}
 params = {
   'query': 'subject of last email from Troy Wilkerson',
   'max_tokens': 4000

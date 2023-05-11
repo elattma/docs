@@ -1,0 +1,44 @@
+---
+title: "Generate AuthLink"
+api: "GET /v1/auth"
+---
+
+## Query Parameters
+
+<ParamField query="app" type="string" required>
+  The app id to which to connect an end user's library
+</ParamField>
+## Response
+<ResponseField name="authLink" type="string" required>
+  The authentication link to redirect your end user to so they can build their library and grant your app access
+</ResponseField>
+<RequestExample>
+
+```bash cURL
+curl --request GET --get \
+     --url https://api.mimo.team/v1/auth \
+     --header 'Authorization: REPLACE' \
+     --data app='01H0601C0CD83E63BYD7BADWV3'
+```
+
+```python Python
+import requests
+
+url = 'https://api.mimo.team/v1/auth'
+headers = {'Authorization': REPLACE}
+params = {
+  'app': '01H0601C0CD83E63BYD7BADWV3'
+}
+response = requests.get(url, headers=headers, params=params)
+
+```
+
+</RequestExample>
+<ResponseExample>
+```json Sample Response
+{
+  "authLink": "https://www.mimo.team/auth?token=AUTH_TOKEN"
+}
+````
+
+</ResponseExample>

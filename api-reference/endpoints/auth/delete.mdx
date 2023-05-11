@@ -1,0 +1,49 @@
+---
+title: "Remove Library"
+api: "DELETE /v1/auth"
+---
+
+## Query Parameters
+
+<ParamField query="app" type="string" required>
+  The app id
+</ParamField>
+<ParamField query="library" type="string" required>
+  The library id to remove
+</ParamField>
+## Response
+<ResponseField name="success" type="boolean" required>
+  Whether the library was successfully removed from the app
+</ResponseField>
+<RequestExample>
+
+```bash cURL
+curl --request DELETE --delete \
+     --url https://api.mimo.team/v1/auth \
+     --header 'Authorization: REPLACE' \
+     --data app='01H0601C0CD83E63BYD7BADWV3' \
+     --data library='01H0618VAW5HDJREB3X1XMXF2C'
+```
+
+```python Python
+import requests
+
+url = 'https://api.mimo.team/v1/auth'
+headers = {'Authorization': REPLACE}
+params = {
+  'app': '01H0601C0CD83E63BYD7BADWV3',
+  'library': '01H0618VAW5HDJREB3X1XMXF2C'
+}
+response = requests.get(url, headers=headers, params=params)
+
+```
+
+</RequestExample>
+<ResponseExample>
+```json Sample Response
+{
+  "success": True
+}
+````
+
+</ResponseExample>

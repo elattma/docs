@@ -1,0 +1,49 @@
+---
+title: "Get Library"
+api: "GET /v1/library"
+---
+
+## Query Parameters
+
+<ParamField query="app" type="string" required>
+  The app id
+</ParamField>
+## Response
+<ResponseField name="libraries" type="Library[]" required>
+  A list of `Library` objects that the provided app has access to. See [The Library Object](/api-reference/endpoints/library/the-library-object) for reference
+</ResponseField>
+<RequestExample>
+
+```bash cURL
+curl --request GET --get \
+     --url https://api.mimo.team/v1/library \
+     --header 'Authorization: REPLACE' \
+     --data app='01H0601C0CD83E63BYD7BADWV3'
+```
+
+```python Python
+import requests
+
+url = 'https://api.mimo.team/v1/library'
+headers = {'Authorization': REPLACE}
+params = {
+  'app': '01H0601C0CD83E63BYD7BADWV3'
+}
+response = requests.get(url, headers=headers, params=params)
+
+```
+
+</RequestExample>
+<ResponseExample>
+```json Sample Response
+{
+  "libraries": [
+    {
+      "id": "01H0618VAW5HDJREB3X1XMXF2C",
+      "created_at": 1683831102
+    }
+  ]
+}
+````
+
+</ResponseExample>

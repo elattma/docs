@@ -35,8 +35,8 @@
   "api": {
     "baseUrl": "https://api.mimo.team",
     "auth": {
-      "method": "key",
-      "name": "x-api-key"
+      "method": "basic",
+      "name": "Authorization"
     },
     "playground": {
       "mode": "simple"
@@ -81,6 +81,20 @@
             "api-reference/endpoints/context/the-context-object",
             "api-reference/endpoints/context/formulating-a-query",
             "api-reference/endpoints/context/get"
+          ]
+        },
+        {
+          "group": "Library",
+          "pages": [
+            "api-reference/endpoints/library/the-library-object",
+            "api-reference/endpoints/library/get"
+          ]
+        },
+        {
+          "group": "Auth",
+          "pages": [
+            "api-reference/endpoints/auth/get",
+            "api-reference/endpoints/auth/delete"
           ]
         }
       ]

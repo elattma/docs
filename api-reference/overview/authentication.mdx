@@ -10,26 +10,36 @@ Before accessing the Mimo API, you'll need to create an app on our website. This
 2. Click the **Create App** button.
 3. Give your application a descriptive name and press the **Create** button.
 
-## Obtaining an API Key
+## Basic Auth
 
-Mimo uses API keys to manage API authentication. API keys are provisioned at the app level, meaning each app will have its own API key. An app's API key can be found under the [developer settings](https://mimo.team/dashboard/settings/api) after selecting a specific app.
+Mimo uses basic auth to manage API authentication. Basic auth is a simple authentication scheme built into the HTTP protocol. It allows credentials to be sent in the HTTP header. The Mimo API uses basic auth to authenticate requests.
 
-## Authenticating Your Requests
+Firstly, you'll need your secret key. Each developer has a secret key that can be found under the [developer settings](https://mimo.team/dashboard/settings/api) after being granted developer access.
 
-When making a request to the Mimo API, you must include the `x-api-key` header with an API key as its value.
+Secondly, you'll need an API key. API keys are provisioned at the app level, meaning each app will have its own API keys. An app's API key can be found under the [developer settings](https://mimo.team/dashboard/settings/api) after selecting a specific app.
 
+To authenticate a request with Basic Auth, simply include your API key as the username and your secret key as the password in your request's `Authorization` header.
+
+Here's an example:
 <CodeGroup>
 ```bash cURL
 curl ...
-     --header 'x-api-key: <YOUR_API_KEY>'
+     --header 'Authorization: b64_encoded(API_KEY:SECRET_KEY)'
      ...
 ```
 
 ```python Python
 import requests
+from base64 import b64encode
 
-headers = {'x-api-key': <YOUR_API_KEY>}
+token = b64encode(f"{API_KEY}:{SECRET_KEY}".encode('utf-8')).decode("ascii")
+
+headers = {'Authorization': f'Basic {token}'}
 response = requests.get(..., headers=headers, ...)
 ```
 
 </CodeGroup>
+
+## Bearer Auth
+
+This is on our roadmap. If you'd like us to prioritize this, please let us know by emailing us at [admin@mimo.team](mailto:admin@mimo.team)

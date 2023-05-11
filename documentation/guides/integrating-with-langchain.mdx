@@ -52,7 +52,7 @@ def call_mimo_api(query: str, max_tokens: int=None) -> str:
     'library_id': <MIMO_LIBRARY_ID>,
     'max_tokens': max_tokens
   }
-  headers = {'x-api-key': <YOUR_MIMO_API_KEY>}
+  headers = {'Authorization': <AUTH_VALUE>}
   url = 'https://api.mimo.team/context'
   response = requests.get(url, params=params, headers=headers)
   data = response.json()
