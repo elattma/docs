@@ -53,7 +53,7 @@ def call_mimo_api(query: str, max_tokens: int=None) -> str:
     'max_tokens': max_tokens
   }
   headers = {'Authorization': <AUTH_VALUE>}
-  url = 'https://api.mimo.team/context'
+  url = 'https://api.mimo.team/v1/context'
   response = requests.get(url, params=params, headers=headers)
   data = response.json()
   context = data.get('context')

@@ -16,7 +16,7 @@ To retrieve the next page of results, you can include the `next_token` value as 
 ## Example
 Here's an example request to the [Retrieve Context](/api-reference/endpoints/context/retrieve-context) method that would return a paginated response.
 ```text Request
-GET https://api.mimo.team/context?query=last%2010%20emails&max_tokens=100
+GET https://api.mimo.team/v1/context?query=last%2010%20emails&max_tokens=100
 ```
 We get back a response that contains our `Context` list and a `next_token`, indicating that more results were found, but not returned.
 ```json Response
@@ -43,5 +43,5 @@ We get back a response that contains our `Context` list and a `next_token`, indi
 ```
 To retrieve additional results beyond the first page, simply execute the same request, but include the `next_token` parameter in your query parameters. You can modify the size of the response by changing the value of `max_tokens` in subsequent requests.
 ```text Request
-GET https://api.mimo.team/context?query=last%2010%emails&max_tokens=200&next_token=b2Zmc2V0OjEwLGxpbWl0OjEwMA==
+GET https://api.mimo.team/v1/context?query=last%2010%emails&max_tokens=200&next_token=b2Zmc2V0OjEwLGxpbWl0OjEwMA==
 ```
