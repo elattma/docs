@@ -9,7 +9,7 @@ api: "GET /v1/auth"
   The app id to which to connect an end user's library
 </ParamField>
 ## Response
-<ResponseField name="authLink" type="string" required>
+<ResponseField name="auth_link" type="string" required>
   The authentication link to redirect your end user to so they can build their library and grant your app access
 </ResponseField>
 <RequestExample>
@@ -37,7 +37,7 @@ response = requests.get(url, headers=headers, params=params)
 <ResponseExample>
 ```json Sample Response
 {
-  "authLink": "https://www.mimo.team/auth?token=AUTH_TOKEN"
+  "auth_link": "https://www.mimo.team/auth?token=AUTH_TOKEN"
 }
 ````
 

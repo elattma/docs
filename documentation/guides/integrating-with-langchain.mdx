@@ -49,7 +49,7 @@ Write a helper function that uses the `requests` module to call the [Retrieve Co
 def call_mimo_api(query: str, max_tokens: int=None) -> str:
   params = {
     'query': query,
-    'library_id': <MIMO_LIBRARY_ID>,
+    'library': <MIMO_LIBRARY_ID>,
     'max_tokens': max_tokens
   }
   headers = {'Authorization': <AUTH_VALUE>}
