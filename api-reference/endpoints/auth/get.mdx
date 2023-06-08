@@ -18,7 +18,8 @@ api: "GET /v1/auth"
 curl --request GET --get \
      --url https://api.mimo.team/v1/auth \
      --header 'Authorization: REPLACE' \
-     --data app='01H0601C0CD83E63BYD7BADWV3'
+     --data app='01H0601C0CD83E63BYD7BADWV3' \
+     --data redirect_uri='https://example.com'
 ```
 
 ```python Python
