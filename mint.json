@@ -80,7 +80,8 @@
           "pages": [
             "api-reference/endpoints/context/the-context-object",
             "api-reference/endpoints/context/formulating-a-query",
-            "api-reference/endpoints/context/get"
+            "api-reference/endpoints/context/overriding-a-query",
+            "api-reference/endpoints/context/post"
           ]
         },
         {

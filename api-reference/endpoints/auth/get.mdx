@@ -3,10 +3,22 @@ title: "Generate AuthLink"
 api: "GET /v1/auth"
 ---
 
+## Description
+
+After you have created an app, you can onboard an end user's library using an auth link. To do this, simply generate an auth link and redirect your end user to it. They will be prompted to sign in to Mimo and grant your app access to their library. 
+Once they have done so, your app will have access to query their library.
+
 ## Query Parameters
 
 <ParamField query="app" type="string" required>
   The app id to which to connect an end user's library
+</ParamField>
+<ParamField query="redirect_uri" type="string" required>
+  A URL the end user will be redirected to after they have granted your app access to their library
+</ParamField>
+<ParamField query="state" type="string">
+  When we redirect the end user to your redirect_uri, we will include this state parameter in the query string. You can use this to verify the request came from Mimo. 
+  Coming soon... 
 </ParamField>
 ## Response
 <ResponseField name="auth_link" type="string" required>
