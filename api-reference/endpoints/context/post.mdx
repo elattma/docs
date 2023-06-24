@@ -7,7 +7,7 @@ api: "POST /v1/context"
 
 <ParamField body="query" type="Query" required>
   <Expandable title="Query"> 
-    <ParamField body="lingua" type="string">
+    <ParamField body="lingua" type="string" required>
       A description of the desired context in natural language
 
       <Tip>Read [Formulating a Natural Language Query](/api-reference/endpoints/context/formulating-a-natural-language-query) for best practices.</Tip>
@@ -34,10 +34,13 @@ api: "POST /v1/context"
     <ParamField body="limit" type="int">
       The maximum number of results to return.
     </ParamField>
+    <ParamField body="offset" type="int">
+      The number of results to skip.
+    </ParamField>
     <ParamField body="search_method" type="'exact'|'relevant'">
-      The method to use when searching for results. 
+      Specify this field to deterministically query the Mimo Context Agent for relevant or exact context. 
       
-      <Info>If defined, `lingua` will be ignored and the Context Agent will rely on the other parameters to find your context.</Info>
+      <Warning>Only use this field when your agent is certain about the desired context it's searching for. For the best results, fill in as many other fields as possible.</Warning>
     </ParamField>
   </Expandable> 
 </ParamField>
