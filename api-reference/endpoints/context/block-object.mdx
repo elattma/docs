@@ -1,0 +1,48 @@
+---
+title: "Block Object"
+description: A definition for `Block`
+---
+
+## Properties
+
+<ResponseField name="id" type="string" required>
+  The id of the block
+</ResponseField>
+<ResponseField name="label" type="string" required>
+  The label of the block, identifying the type of content it contains
+</ResponseField>
+<ResponseField name="integration" type="string" required>
+  The integration that the block belongs to. See
+  [Integrations](/documentation/data/integrations) for reference
+</ResponseField>
+<ResponseField name="connection" type="string" required>
+  The id of the connection that the block belongs to.
+</ResponseField>
+<ResponseField name="last_updated_ts" type="int" required>
+  The timestamp of when the block was last updated
+</ResponseField>
+<ResponseField name="properties" type="Property[]" required>
+  The properties of the block
+  <Expandable title="Property">
+    <ResponseField name="type" type="'structured'|'unstructured'" required>
+      The type of property
+    </ResponseField>
+    <ResponseField name="key" type="string" required>
+      The key of the property
+    </ResponseField>
+    <ResponseField name="value" type="string">
+      The value of the structured property. Populated if and only if the property is structured.
+    </ResponseField>
+    <ResponseField name="chunks" type="Chunk[]">
+      The chunks of the unstructured property. Populated if and only if the property is unstructured.
+      <Expandable title="Chunk">
+        <ResponseField name="order" type="int" required>
+          The relative order of the chunk in the property
+        </ResponseField>
+        <ResponseField name="text" type="string" required>
+          The unstructured text content
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>

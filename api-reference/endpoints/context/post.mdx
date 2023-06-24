@@ -3,29 +3,57 @@ title: "Retrieve Context"
 api: "POST /v1/context"
 ---
 
-## Query Parameters
+## Request Body
 
-<ParamField query="query" type="string" required>
-  A description of the desired context
+<ParamField body="query" type="Query" required>
+  <Expandable title="Query"> 
+    <ParamField body="lingua" type="string">
+      A description of the desired context in natural language
 
-  <Tip>Read [Formulating a Query](/api-reference/endpoints/context/formulating-a-query) to learn best practices with the `query` parameter.</Tip>
-
+      <Tip>Read [Formulating a Natural Language Query](/api-reference/endpoints/context/formulating-a-natural-language-query) for best practices.</Tip>
+    </ParamField>
+    <ParamField body="integrations" type="string[]">
+      Retrieve context included only in any of these integration ids.
+    </ParamField>
+    <ParamField body="concepts" type="string[]">
+      A list of semantically important concepts related to the desired context.
+    </ParamField>
+    <ParamField body="entities" type="string[]">
+      A list of case-insensitive entity names to filter on. An entity is a person, place, or organization that is
+      mentioned in both structured or unstructured data.
+    </ParamField>
+    <ParamField body="time_start" type="int">
+      A unix timestamp in seconds that represents the start of the time range to filter on.
+    </ParamField>
+    <ParamField body="time_end" type="int">
+      A unix timestamp in seconds that represents the end of the time range to filter on.
+    </ParamField>
+    <ParamField body="time_sort" type="'asc'|'desc'">
+      A string that represents the order to sort the results in.
+    </ParamField>
+    <ParamField body="limit" type="int">
+      The maximum number of results to return.
+    </ParamField>
+    <ParamField body="search_method" type="'exact'|'relevant'">
+      The method to use when searching for results. 
+      
+      <Info>If defined, `lingua` will be ignored and the Context Agent will rely on the other parameters to find your context.</Info>
+    </ParamField>
+  </Expandable> 
 </ParamField>
-<ParamField query="library" type="string" default="sample">
+<ParamField body="library" type="string" default="sample">
   The ID of the library to retrieve the context from. Defaults to the ID of the [Test Library](/documentation/data/test-library)
 </ParamField>
-<ParamField query="max_tokens" type="integer" default='2000'>
-  The maximum number of tokens to retrieve
+<ParamField body="token_limit" type="integer">
+  The maximum number of tokens to retrieve.
+  <Note>If token_limit and query.limit are both provided, the Context Agent will return the first limit that is reached.</Note>
 </ParamField>
-<ParamField query="overrides" type="object">
-  A JSON object that specifies overrides for the context retrieval. See [Overrides](/api-reference/endpoints/context/overriding-a-query) for reference
-</ParamField>
-<ParamField query="next_token" type="string">
+<ParamField body="next_token" type="string">
   See [Pagination](/api-reference/overview/pagination) for reference
 </ParamField>
 ## Response
-<ResponseField name="contexts" type="Context[]" required>
-  A list of `Context` objects that represent the context most relevant to the `query`. See [The Context Object](/api-reference/endpoints/context/the-context-object) for reference
+<ResponseField name="blocks" type="Block[]" required>
+  A list of `Block` objects that represent the context most relevant to the `query`. See [Block Object](/api-reference/endpoints/context/block-object) for reference
 </ResponseField>
 <ResponseField name="next_token" type="string">
   See [Pagination](/api-reference/overview/pagination) for reference
@@ -33,11 +61,14 @@ api: "POST /v1/context"
 <RequestExample>
 
 ```bash cURL
-curl --request POST --post \
-     --url https://api.mimo.team/v1/context \
-     --header 'Authorization: AUTH_VALUE' \
-     --data query='last email from Troy Wilkerson' \
-     --data max_tokens=4000
+curl -X POST \
+     -H 'Authorization: AUTH_VALUE' \
+     -d '{
+           "query": {
+             "lingua": "last email from Troy Wilkerson",
+             "limit": 1
+           }
+         }'
 ```
 
 ```python Python
@@ -46,8 +77,10 @@ import requests
 url = 'https://api.mimo.team/v1/context'
 headers = {'Authorization': AUTH_VALUE}
 params = {
-  'query': 'subject of last email from Troy Wilkerson',
-  'max_tokens': 4000
+  'query': {
+    'lingua': 'last email from Troy Wilkerson',
+    'limit': 1
+  }
 }
 response = requests.post(url, headers=headers, params=params)
 
@@ -57,21 +90,33 @@ response = requests.post(url, headers=headers, params=params)
 <ResponseExample>
 ```json Sample Response
 {
-  "contexts": [
+  "blocks": [
     {
-      "text": "Hello, world",
-      "score": 1.0,
-      "source": {
-        "integration": {
-          "name": "google_mail",
-          "category": "email"
-        },
-        "page": {
-          "id": "1234567890",
-          "link": "https://mail.google.com/mail/u/0/#inbox/1234567890",
-          "type": "email"
-        }
-      }
+      "id": "google_mail_id-1234",
+      "label": "email_thread",
+      "integration": "google_mail",
+      "connection": "mimo_connection_id-5678",
+      "last_updated_ts": 1589395200,
+      "properties": [{
+        "type": "structured",
+        "key": "from",
+        "value": "Troy Wilkerson"
+      }, {
+        "type": "structured",
+        "key": "to",
+        "value": "Earth"
+      },{
+        "type": "structured",
+        "key": "subject",
+        "value": "Hello, world"
+      }, {
+        "type": "unstructured",
+        "key": "body",
+        "chunks": [{
+          "order": 0,
+          "text": "This is the body of the Hello world email"
+        }]
+      }]
     }
   ]
 }

@@ -78,16 +78,15 @@
         {
           "group": "Context",
           "pages": [
-            "api-reference/endpoints/context/the-context-object",
-            "api-reference/endpoints/context/formulating-a-query",
-            "api-reference/endpoints/context/overriding-a-query",
+            "api-reference/endpoints/context/block-object",
+            "api-reference/endpoints/context/formulating-a-natural-language-query",
             "api-reference/endpoints/context/post"
           ]
         },
         {
           "group": "Library",
           "pages": [
-            "api-reference/endpoints/library/the-library-object",
+            "api-reference/endpoints/library/library-object",
             "api-reference/endpoints/library/get"
           ]
         },
